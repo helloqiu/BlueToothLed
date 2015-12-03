@@ -17,11 +17,11 @@ import android.view.View;
  */
 public class Dot extends View {
     final static int MAX_ALPHA = 220;
-    final static int MIN_ALPHA = 100;
+    final static int MIN_ALPHA = 50;
     int alpha;
     Paint paint;
     Paint paint_water_wave;
-    final static int WIDTH = 10;
+    final static int WIDTH = 15;
     final static int TURN_ON = 0;
     final static int TURN_OFF = 1;
     int state;
@@ -29,13 +29,16 @@ public class Dot extends View {
     AttributeSet attributeSet;
     float width;
     float height;
-    Canvas canvas;
     int alpha_water_wave;
     float radius_water_wave;
     float width_water_wave;
     float xDown_water_wave;
     float yDown_water_wave;
     int MAX_ALPHA_WATER_WAVE = 100;
+
+    public Dot(Context context){
+        this(context , null);
+    }
     public Dot(Context context , AttributeSet attributeSet){
         super(context , attributeSet);
         this.context = context;
@@ -84,7 +87,6 @@ public class Dot extends View {
             }
         }
         private void flushState(){
-            Log.e("Dot" , "flushstate");
             radius_water_wave += 5.0f;
             alpha_water_wave -= 10;
             if (alpha_water_wave < 0){
