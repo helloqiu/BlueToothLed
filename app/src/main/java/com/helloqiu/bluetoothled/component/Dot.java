@@ -4,11 +4,9 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -22,8 +20,8 @@ public class Dot extends View {
     Paint paint;
     Paint paint_water_wave;
     final static int WIDTH = 15;
-    final static int TURN_ON = 0;
-    final static int TURN_OFF = 1;
+    final static int TURN_ON = 1;
+    final static int TURN_OFF = 0;
     int state;
     Context context;
     AttributeSet attributeSet;
@@ -50,6 +48,13 @@ public class Dot extends View {
         radius_water_wave = 0.f;
         initPaint();
     }
+    public int getState(){
+        if (this.state == TURN_ON){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
     private void initPaint(){
         paint = new Paint();
         paint.setAntiAlias(true);
@@ -71,7 +76,6 @@ public class Dot extends View {
         alpha_water_wave = MAX_ALPHA_WATER_WAVE;
         width_water_wave = radius_water_wave / 4;
         handler.sendEmptyMessage(0);
-        Log.e("Dot" , "water wave create");
     }
     private Handler handler = new Handler(){
         @Override

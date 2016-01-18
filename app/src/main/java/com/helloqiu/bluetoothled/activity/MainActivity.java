@@ -1,27 +1,30 @@
 package com.helloqiu.bluetoothled.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
-import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import com.helloqiu.bluetoothled.R;
 import com.helloqiu.bluetoothled.component.Dot;
+import com.yalantis.contextmenu.lib.MenuObject;
 
 /**
  * Created by helloqiu on 15/12/3.
  */
 public class MainActivity extends AppCompatActivity {
+
+    Dot[][] dot;
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_main_activity);
 
+        initLayout();
+    }
+    private void initLayout(){
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         int screenWidth = dm.widthPixels;
@@ -32,9 +35,11 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout linearLayout =(LinearLayout) this.findViewById(R.id.LinearLayout);
         LinearLayout[] linearLayoutHeng = new LinearLayout[16];
         LinearLayout[] linearLayoutsShu = new LinearLayout[16];
-        LinearLayout.LayoutParams layoutParamsHeng = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT , (int)height);
-        LinearLayout.LayoutParams layoutParamsShu = new LinearLayout.LayoutParams((int)width , (int)height);
-        Dot[][] dot = new Dot[16][16];
+        LinearLayout.LayoutParams layoutParamsHeng =
+                new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT , (int)height);
+        LinearLayout.LayoutParams layoutParamsShu =
+                new LinearLayout.LayoutParams((int)width , (int)height);
+        dot = new Dot[16][16];
         for (int i = 0 ; i < 16 ; i ++){
             linearLayoutHeng[i] = new LinearLayout(this.getApplicationContext());
             linearLayoutHeng[i].setLayoutParams(layoutParamsHeng);
@@ -48,6 +53,9 @@ public class MainActivity extends AppCompatActivity {
             }
             linearLayout.addView(linearLayoutHeng[i]);
         }
+    }
+    private void initMenu(){
+        
     }
     public static int dip2px(Context context, float dipValue){
         final float scale = context.getResources().getDisplayMetrics().density;
