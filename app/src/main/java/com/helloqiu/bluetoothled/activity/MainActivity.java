@@ -84,11 +84,15 @@ public class MainActivity extends AppCompatActivity {
         send.setResource(R.drawable.icon_bluetooth);
         send.setBgColor(Color.TRANSPARENT);
 
+        MenuObject exit = new MenuObject(getResources().getString(R.string.exit));
+        exit.setResource(R.drawable.icon_exit);
+        exit.setBgColor(Color.TRANSPARENT);
+
         List<MenuObject> menuObjects = new ArrayList<>();
         menuObjects.add(turnOn);
         menuObjects.add(turnOff);
         menuObjects.add(send);
-
+        menuObjects.add(exit);
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -113,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
                             dot[i][j].setState(Dot.TURN_ON);
                         }
                     }
-                    return;
+                    break;
                 case 1:
                     //turn off all
                     for (int i = 0 ; i < 16 ; i ++){
@@ -121,7 +125,16 @@ public class MainActivity extends AppCompatActivity {
                             dot[i][j].setState(Dot.TURN_OFF);
                         }
                     }
-                    return;
+                    break;
+                case 2:
+                    //send
+                    //TODO: Send data to bluetooth
+
+                    break;
+                case 3:
+                    // exit
+                    android.os.Process.killProcess(android.os.Process.myPid());
+                    System.exit(0);
             }
         }
     };
