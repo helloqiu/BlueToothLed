@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
@@ -17,25 +16,28 @@ import android.view.View;
  */
 public class Dot extends View {
     final static int MAX_ALPHA = 220;
-    final static int MIN_ALPHA = 100;
+    final static int MIN_ALPHA = 50;
     int alpha;
     Paint paint;
     Paint paint_water_wave;
-    final static int WIDTH = 10;
-    final static int TURN_ON = 0;
-    final static int TURN_OFF = 1;
+    int WIDTH;
+    public final static int TURN_ON = 1;
+    public final static int TURN_OFF = 0;
     int state;
     Context context;
     AttributeSet attributeSet;
     float width;
     float height;
-    Canvas canvas;
     int alpha_water_wave;
     float radius_water_wave;
     float width_water_wave;
     float xDown_water_wave;
     float yDown_water_wave;
     int MAX_ALPHA_WATER_WAVE = 100;
+
+    public Dot(Context context){
+        this(context , null);
+    }
     public Dot(Context context , AttributeSet attributeSet){
         super(context , attributeSet);
         this.context = context;
@@ -47,11 +49,32 @@ public class Dot extends View {
         radius_water_wave = 0.f;
         initPaint();
     }
+    public void setWidth(int width){
+        this.WIDTH = width;
+    }
+    public int getState(){
+        if (this.state == TURN_ON){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+    public void setState(int state){
+        if (state == TURN_ON){
+            this.state = TURN_ON;
+            this.paint.setAlpha(MAX_ALPHA);
+        }else{
+            this.state = TURN_OFF;
+            this.paint.setAlpha(MIN_ALPHA);
+        }
+        invalidate();
+    }
     private void initPaint(){
         paint = new Paint();
         paint.setAntiAlias(true);
         paint.setStyle(Paint.Style.FILL);
-        paint.setStrokeWidth(10);
+        paint.setStrokeWidth(WIDTH / 3);
+        Log.e("TestActivity" , WIDTH + "");
         paint.setColor(Color.RED);
         paint.setAlpha(alpha);
 
@@ -68,7 +91,6 @@ public class Dot extends View {
         alpha_water_wave = MAX_ALPHA_WATER_WAVE;
         width_water_wave = radius_water_wave / 4;
         handler.sendEmptyMessage(0);
-        Log.e("Dot" , "water wave create");
     }
     private Handler handler = new Handler(){
         @Override
@@ -84,7 +106,6 @@ public class Dot extends View {
             }
         }
         private void flushState(){
-            Log.e("Dot" , "flushstate");
             radius_water_wave += 5.0f;
             alpha_water_wave -= 10;
             if (alpha_water_wave < 0){

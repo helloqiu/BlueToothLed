@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">BlueToothLed</string>
+    <string name="turn_on_all">Turn On All</string>
+    <string name="turn_off_all">Turn Off All</string>
+    <string name="action_settings">Action Settings</string>
+    <string name="context_menu">Context menu</string>
+    <string name="send">Send</string>
+    <string name="exit">Exit</string>
 </resources>
