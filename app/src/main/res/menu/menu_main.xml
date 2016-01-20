@@ -4,10 +4,28 @@
     tools:context="com.helloqiu.myapplication.MainActivity" >
 
     <item
-        android:id="@+id/context_menu"
-        android:title="@string/action_settings"
-        android:icon="@drawable/add_btn"
+        android:id="@+id/main_menu_turn_on_all"
+        android:title="@string/turn_on_all"
+        android:icon="@drawable/ic_done_all_black_48dp"
         android:orderInCategory="100"
-        app:showAsAction="always" />
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/main_menu_turn_off_all"
+        android:title="@string/turn_off_all"
+        android:icon="@drawable/ic_highlight_off_black_48dp"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/main_menu_send"
+        android:title="@string/send"
+        android:icon="@drawable/ic_send_black_48dp"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/main_menu_exit"
+        android:title="@string/exit"
+        android:icon="@drawable/ic_exit_to_app_black_48dp"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
 
 </menu>
