@@ -1,7 +1,5 @@
 package com.helloqiu.bluetoothled.activity;
 
-import android.app.DialogFragment;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -24,7 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ *
  * Created by helloqiu on 15/12/3.
+ *
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void initMenu(){
         MenuObject turnOn = new MenuObject(getResources().getString(R.string.turn_on_all));
-        turnOn.setResource(R.drawable.icon_turn_on);
+        turnOn.setResource(R.drawable.ic_done_all_black_48dp);
         turnOn.setBgColor(Color.TRANSPARENT);
 
         MenuObject turnOff = new MenuObject(getResources().getString(R.string.turn_off_all));
