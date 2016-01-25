@@ -2,6 +2,7 @@ package com.helloqiu.bluetoothled.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.Menu;
@@ -22,6 +23,7 @@ import java.lang.reflect.Method;
 public class MainActivity extends AppCompatActivity {
 
     Dot[][] dot;
+    Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -30,35 +32,45 @@ public class MainActivity extends AppCompatActivity {
         initLayout();
     }
     private void initLayout(){
-        DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
-        int screenWidth = dm.widthPixels;
-        int screenHeight = dm.heightPixels;
-        float width = screenWidth / 16.f;
-        float height = (screenHeight - dip2px(this.getApplicationContext() , 100)) / 16.f;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        DisplayMetrics dm = new DisplayMetrics();
+                        getWindowManager().getDefaultDisplay().getMetrics(dm);
+                        int screenWidth = dm.widthPixels;
+                        int screenHeight = dm.heightPixels;
+                        float width = screenWidth / 16.f;
+                        float height = (screenHeight - dip2px(getApplicationContext() , 100)) / 16.f;
 
-        LinearLayout linearLayout =(LinearLayout) this.findViewById(R.id.LinearLayout);
-        LinearLayout[] linearLayoutHeng = new LinearLayout[16];
-        LinearLayout[] linearLayoutsShu = new LinearLayout[16];
-        LinearLayout.LayoutParams layoutParamsHeng =
-                new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT , (int)height);
-        LinearLayout.LayoutParams layoutParamsShu =
-                new LinearLayout.LayoutParams((int)width , (int)height);
-        dot = new Dot[16][16];
-        for (int i = 0 ; i < 16 ; i ++){
-            linearLayoutHeng[i] = new LinearLayout(this.getApplicationContext());
-            linearLayoutHeng[i].setLayoutParams(layoutParamsHeng);
-            linearLayoutHeng[i].setOrientation(LinearLayout.HORIZONTAL);
-            for (int j = 0 ; j < 16 ; j ++){
-                linearLayoutsShu[j] = new LinearLayout(this.getApplicationContext());
-                linearLayoutsShu[j].setLayoutParams(layoutParamsShu);
-                dot[i][j] = new Dot(this.getApplicationContext());
-                dot[i][j].setWidth(screenWidth / 64);
-                linearLayoutsShu[j].addView(dot[i][j]);
-                linearLayoutHeng[i].addView(linearLayoutsShu[j]);
+                        LinearLayout linearLayout =(LinearLayout) findViewById(R.id.LinearLayout);
+                        LinearLayout[] linearLayoutHeng = new LinearLayout[16];
+                        LinearLayout[] linearLayoutsShu = new LinearLayout[16];
+                        LinearLayout.LayoutParams layoutParamsHeng =
+                                new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT , (int)height);
+                        LinearLayout.LayoutParams layoutParamsShu =
+                                new LinearLayout.LayoutParams((int)width , (int)height);
+                        dot = new Dot[16][16];
+                        for (int i = 0 ; i < 16 ; i ++){
+                            linearLayoutHeng[i] = new LinearLayout(getApplicationContext());
+                            linearLayoutHeng[i].setLayoutParams(layoutParamsHeng);
+                            linearLayoutHeng[i].setOrientation(LinearLayout.HORIZONTAL);
+                            for (int j = 0 ; j < 16 ; j ++){
+                                linearLayoutsShu[j] = new LinearLayout(getApplicationContext());
+                                linearLayoutsShu[j].setLayoutParams(layoutParamsShu);
+                                dot[i][j] = new Dot(getApplicationContext());
+                                dot[i][j].setWidth(screenWidth / 64);
+                                linearLayoutsShu[j].addView(dot[i][j]);
+                                linearLayoutHeng[i].addView(linearLayoutsShu[j]);
+                            }
+                            linearLayout.addView(linearLayoutHeng[i]);
+                        }
+                    }
+                });
             }
-            linearLayout.addView(linearLayoutHeng[i]);
-        }
+        }).start();
     }
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
@@ -83,19 +95,39 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.main_menu_turn_on_all:
                 // turn on all
-                for (int i = 0 ; i < 16 ; i ++){
-                    for (int j = 0 ; j < 16 ; j++){
-                        dot[i][j].setState(Dot.TURN_ON);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                for (int i = 0 ; i < 16 ; i ++) {
+                                    for (int j = 0; j < 16; j++) {
+                                        dot[i][j].setState(Dot.TURN_ON);
+                                    }
+                                }
+                            }
+                        });
                     }
-                }
+                }).start();
                 break;
             case R.id.main_menu_turn_off_all:
                 //turn off all
-                for (int i = 0 ; i < 16 ; i ++){
-                    for (int j = 0 ; j < 16 ; j++){
-                        dot[i][j].setState(Dot.TURN_OFF);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                for (int i = 0 ; i < 16 ; i ++){
+                                    for (int j = 0 ; j < 16 ; j++){
+                                        dot[i][j].setState(Dot.TURN_OFF);
+                                    }
+                                }
+                            }
+                        });
                     }
-                }
+                }).start();
                 break;
             case R.id.main_menu_send:
                 //send
